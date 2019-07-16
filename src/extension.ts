@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as marked from 'marked';
-import * as fs from 'fs';
+import { promises } from 'fs';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -19,11 +19,16 @@ export function activate(context: vscode.ExtensionContext) {
 		// The code you place here will be executed every time your command is executed
 		if (vscode.window.activeTextEditor) {
 			const text = vscode.window.activeTextEditor.document.getText();
-			const html = marked(text);
-			console.log(`<div id="sku-markdown">\n${html}</div>\n`);
+			const html = `<div id="sku-markdown">\n${marked(text)}</div>\n`;
+			console.log(vscode.window.activeTextEditor.document.uri.fsPath);
+			const result = promises.writeFile(`${vscode.window.activeTextEditor.document.uri.fsPath}.html`, html);
+			result.then(() => {
+				// Display a message box to the user
+				vscode.window.showInformationMessage('生成成功！');
+			}).catch((err) => {
+				vscode.window.showErrorMessage('出错了！');
+			});
 		}
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello SB!');
 	});
 
 	context.subscriptions.push(disposable);
