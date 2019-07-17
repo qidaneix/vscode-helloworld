@@ -10,16 +10,22 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.markdownToRawHtml"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "extension.markdownToRawHtml",
+				"title": "create HTML",
+				"category": "Markdown"
 			}
-		]
+		],
+		"menus": {
+			"editor/context": [{
+				"command": "extension.markdownToRawHtml"
+			}]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

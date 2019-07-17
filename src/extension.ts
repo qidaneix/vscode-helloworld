@@ -10,23 +10,26 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-		console.log('Congratulations, your extension "helloworld" is now active!');
+	console.log('Congratulations, your extension "markdownToRawHtml" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
+	let disposable = vscode.commands.registerCommand('extension.markdownToRawHtml', () => {
 		// The code you place here will be executed every time your command is executed
-		if (vscode.window.activeTextEditor) {
+		if (!vscode.window.activeTextEditor) {
+			vscode.window.showWarningMessage('请打开目录下的markdown格式文件！');
+		} else if (!vscode.window.activeTextEditor.document.uri.fsPath.endsWith('.md')) {
+			vscode.window.showWarningMessage('请打开目录下的markdown格式文件！');
+		} else {
 			const text = vscode.window.activeTextEditor.document.getText();
 			const html = `<div id="sku-markdown">\n${marked(text)}</div>\n`;
-			console.log(vscode.window.activeTextEditor.document.uri.fsPath);
 			const result = promises.writeFile(`${vscode.window.activeTextEditor.document.uri.fsPath}.html`, html);
 			result.then(() => {
 				// Display a message box to the user
-				vscode.window.showInformationMessage('生成成功！');
+				vscode.window.showInformationMessage('HTML生成成功！');
 			}).catch((err) => {
-				vscode.window.showErrorMessage('出错了！');
+				vscode.window.showErrorMessage('HTML生成出错了！');
 			});
 		}
 	});
