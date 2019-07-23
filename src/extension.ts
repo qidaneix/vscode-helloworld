@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showWarningMessage('请打开目录下的markdown格式文件！');
 		} else {
 			const text = vscode.window.activeTextEditor.document.getText();
-			const html = `<div id="sku-markdown">\n${marked(text)}</div>\n`;
+			const html = `<article id="sku-markdown">\n${marked(text)}</article>\n`;
 			const result = promises.writeFile(`${vscode.window.activeTextEditor.document.uri.fsPath}.html`, html);
 			result.then(() => {
 				// Display a message box to the user
