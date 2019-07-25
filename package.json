@@ -23,9 +23,11 @@
 			}
 		],
 		"menus": {
-			"editor/context": [{
-				"command": "extension.markdownToRawHtml"
-			}]
+			"editor/context": [
+				{
+					"command": "extension.markdownToRawHtml"
+				}
+			]
 		}
 	},
 	"scripts": {
@@ -36,6 +38,7 @@
 		"test": "npm run compile && node ./node_modules/vscode/bin/test"
 	},
 	"devDependencies": {
+		"@types/jszip": "^3.1.6",
 		"@types/marked": "^0.6.5",
 		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
@@ -44,6 +47,7 @@
 		"vscode": "^1.1.28"
 	},
 	"dependencies": {
+		"jszip": "^3.2.2",
 		"marked": "^0.7.0"
 	}
 }
