@@ -2,7 +2,7 @@ import { promises as fsPromises } from 'fs';
 import * as path  from 'path';
 
 
-export default async function recursiveReaddir(directory: string) {
+export default async (directory: string) => {
     const files: string[] = [];
     async function loop(dir: string) {
         const subItems = await fsPromises.readdir(dir, { withFileTypes: true });
@@ -16,4 +16,4 @@ export default async function recursiveReaddir(directory: string) {
     }
     await loop(directory);
     return files;
-}
+};

@@ -11,14 +11,22 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.markdownToRawHtml"
+		"onLanguage:markdown",
+		"workspaceContains:**/*.md",
+		"onCommand:extension.markdownToRawHtml",
+		"onCommand:extension.markdownToZip"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "extension.markdownToRawHtml",
-				"title": "create HTML",
+				"title": "create raw HTML",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.markdownToZip",
+				"title": "create raw HTML and zip",
 				"category": "Markdown"
 			}
 		],
@@ -26,6 +34,9 @@
 			"editor/context": [
 				{
 					"command": "extension.markdownToRawHtml"
+				},
+				{
+					"command": "extension.markdownToZip"
 				}
 			]
 		}
