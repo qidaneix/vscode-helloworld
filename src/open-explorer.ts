@@ -6,5 +6,8 @@ export default async (path: string) => {
     const asyncExec = util.promisify(exec);
     // possible outcomes -> 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
     const isWin = /^win/.test(process.platform);
-    return await asyncExec(`${isWin ?  'start' : 'open'} "" "${path}"`);
+    if (!isWin) {
+        return await Promise.reject('暂时只支持windows系统，见谅！');
+    }
+    return await asyncExec(`Explorer.exe /select,"${path}"`);
 };
