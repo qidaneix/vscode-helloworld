@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as path from 'path';
 import isMarkdown from './is-markdown';
 import createHTML from './create-html';
 import createZip from './create-zip';
@@ -42,12 +43,50 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerTextEditorCommand('extension.insertImage', async (textEditor, edit) => {
+		vscode.commands.registerTextEditorCommand('extension.insertOnlineImage', async (textEditor, edit) => {
 			// The code you place here will be executed every time your command is executed
 			if (isMarkdown(textEditor)) {
 				edit.insert(textEditor.selection.active, `
 ![alt](link)
 `);
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.insertLocalImage', async (textEditor, edit) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				try {
+					const images = await vscode.window.showOpenDialog({
+						defaultUri: textEditor.document.uri,
+						canSelectMany: true,
+						filters: { 
+							Images: ['png', 'jpg', 'jpeg', 'gif'],
+						},
+					});
+					if (images) {
+						const folderPath = path.dirname(textEditor.document.uri.fsPath);
+						const imageRelativePaths = images.map((item) => {
+							return path.relative(folderPath, item.fsPath);
+						});
+						console.log(imageRelativePaths);
+						const hasIncorrectPath = imageRelativePaths.some((item) => {
+							return item.startsWith('..');
+						});
+						if (hasIncorrectPath) {
+							vscode.window.showWarningMessage('有图片存放路径不满足要求！');
+						} else {
+							imageRelativePaths.forEach((item) => {
+								edit.insert(textEditor.selection.active, `
+![${item}](${item})
+`);
+							});
+						}
+					}
+				} catch (error) {
+					throw error;
+				}
 			}
 		})
 	);

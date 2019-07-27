@@ -15,7 +15,8 @@
 		"workspaceContains:**/*.md",
 		"onCommand:extension.insertTable",
 		"onCommand:extension.insertLink",
-		"onCommand:extension.insertImage",
+		"onCommand:extension.insertOnlineImage",
+		"onCommand:extension.insertLocalImage",
 		"onCommand:extension.markdownToRawHtml",
 		"onCommand:extension.markdownToZip"
 	],
@@ -33,8 +34,13 @@
 				"category": "Markdown"
 			},
 			{
-				"command": "extension.insertImage",
-				"title": "insert image",
+				"command": "extension.insertOnlineImage",
+				"title": "insert online image",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.insertLocalImage",
+				"title": "insert local image",
 				"category": "Markdown"
 			},
 			{
@@ -57,7 +63,10 @@
 					"command": "extension.insertLink"
 				},
 				{
-					"command": "extension.insertImage"
+					"command": "extension.insertOnlineImage"
+				},
+				{
+					"command": "extension.insertLocalImage"
 				},
 				{
 					"command": "extension.markdownToRawHtml"
