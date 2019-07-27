@@ -1,13 +1,15 @@
 import * as vscode from 'vscode';
 import * as marked from 'marked';
-import { promises as fsPromises } from 'fs';
+import * as fs from 'fs';
+import * as util from 'util';
 
+const writeFilePromise = util.promisify(fs.writeFile);
 
 export default async (textEditor: vscode.TextEditor) => {
     const text = textEditor.document.getText();
     const html = `<article id="sku-markdown">\n${marked(text)}</article>\n`;
     try {
-        await fsPromises.writeFile(`${textEditor.document.uri.fsPath}.html`, html);
+        await writeFilePromise(`${textEditor.document.uri.fsPath}.html`, html);
         vscode.window.showInformationMessage('HTML生成成功！');
     } catch (error) {
         vscode.window.showErrorMessage('HTML生成出错了！');

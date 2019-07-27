@@ -1,10 +1,12 @@
 import * as vscode from 'vscode';
 import * as JSZip from 'jszip';
 import * as path from 'path';
-import { promises as fsPromises, createWriteStream } from 'fs';
+import * as fs from 'fs';
+import * as util from 'util';
 import recursiveReaddir from './recursive-readdir';
 import openExplorer from './open-explorer';
 
+const readFilePromise = util.promisify(fs.readFile);
 
 export default async (textEditor: vscode.TextEditor, saveDir: vscode.Uri[]) => {
     // .md文件目录
@@ -17,12 +19,12 @@ export default async (textEditor: vscode.TextEditor, saveDir: vscode.Uri[]) => {
     try {
         const files = await recursiveReaddir(folderPath);
         for (const item of files) {
-            const file = await fsPromises.readFile(item);
+            const file = await readFilePromise(item);
             mdZip.file(path.relative(folderPath, item), file);
         }
         mdZip
             .generateNodeStream({ type: 'nodebuffer', streamFiles: true })
-            .pipe(createWriteStream(savePath))
+            .pipe(fs.createWriteStream(savePath))
             .on('finish', async () => { 
                 // JSZip generates a readable stream with a "end" event,
                 // but is piped here in a writable stream which emits a "finish" event.
