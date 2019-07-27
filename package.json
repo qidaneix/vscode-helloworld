@@ -13,12 +13,30 @@
 	"activationEvents": [
 		"onLanguage:markdown",
 		"workspaceContains:**/*.md",
+		"onCommand:extension.insertTable",
+		"onCommand:extension.insertLink",
+		"onCommand:extension.insertImage",
 		"onCommand:extension.markdownToRawHtml",
 		"onCommand:extension.markdownToZip"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
+			{
+				"command": "extension.insertTable",
+				"title": "insert table",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.insertLink",
+				"title": "insert link",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.insertImage",
+				"title": "insert image",
+				"category": "Markdown"
+			},
 			{
 				"command": "extension.markdownToRawHtml",
 				"title": "create raw HTML",
@@ -32,6 +50,15 @@
 		],
 		"menus": {
 			"editor/context": [
+				{
+					"command": "extension.insertTable"
+				},
+				{
+					"command": "extension.insertLink"
+				},
+				{
+					"command": "extension.insertImage"
+				},
 				{
 					"command": "extension.markdownToRawHtml"
 				},

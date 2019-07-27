@@ -16,38 +16,76 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	const markdownToRawHtml = vscode.commands.registerTextEditorCommand('extension.markdownToRawHtml', async (textEditor) => {
-		// The code you place here will be executed every time your command is executed
-		if (isMarkdown(textEditor)) {
-			try {
-				await createHTML(textEditor);
-			} catch (error) {
-				throw error;
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.insertTable', async (textEditor, edit) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				edit.insert(textEditor.selection.active, `
+|    |    |    |    |
+|----|:---|---:|:--:|
+|    |    |    |    |
+|    |    |    |    |
+`);
 			}
-		}
-	});
+		})
+	);
 
-	const markdownToZip = vscode.commands.registerTextEditorCommand('extension.markdownToZip', async (textEditor) => {
-		// The code you place here will be executed every time your command is executed
-		if (isMarkdown(textEditor)) {
-			try {
-				const saveDir = await vscode.window.showOpenDialog({
-					canSelectFiles: false,
-					canSelectFolders: true,
-					canSelectMany: false,
-				});
-				if (saveDir) {
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.insertLink', async (textEditor, edit) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				edit.insert(textEditor.selection.active, `
+[text](link)
+`);
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.insertImage', async (textEditor, edit) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				edit.insert(textEditor.selection.active, `
+![alt](link)
+`);
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.markdownToRawHtml', async (textEditor) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				try {
 					await createHTML(textEditor);
-					await createZip(textEditor, saveDir);
+				} catch (error) {
+					throw error;
 				}
-			} catch (error) {
-				throw error;
 			}
-		}
-	});
+		})
+	);
 
-	context.subscriptions.push(markdownToRawHtml);
-	context.subscriptions.push(markdownToZip);
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.markdownToZip', async (textEditor) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				try {
+					const saveDir = await vscode.window.showOpenDialog({
+						canSelectFiles: false,
+						canSelectFolders: true,
+						canSelectMany: false,
+					});
+					if (saveDir) {
+						await createHTML(textEditor);
+						await createZip(textEditor, saveDir);
+					}
+				} catch (error) {
+					throw error;
+				}
+			}
+		})
+	);
+
 }
 
 // this method is called when your extension is deactivated
