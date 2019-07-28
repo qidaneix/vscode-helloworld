@@ -6,7 +6,9 @@ import * as util from 'util';
 const writeFilePromise = util.promisify(fs.writeFile);
 
 export default async (textEditor: vscode.TextEditor) => {
-    const md = new MarkdownIt();
+    const md = new MarkdownIt({
+        html: true,
+    });
     const text = textEditor.document.getText();
     const html = `<article class="vscode-body">\n${md.render(text)}</article>\n`;
     try {

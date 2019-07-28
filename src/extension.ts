@@ -71,7 +71,6 @@ export function activate(context: vscode.ExtensionContext) {
 						const imageRelativePaths = images.map((item) => {
 							return path.relative(folderPath, item.fsPath);
 						});
-						console.log(imageRelativePaths.join('\n'));
 						const hasIncorrectImage = imageRelativePaths.some((item) => {
 							const imageName = path.basename(item);
 							if (item.startsWith('..') || /^[a-zA-Z]:.*$/.test(item)) {
@@ -96,6 +95,23 @@ export function activate(context: vscode.ExtensionContext) {
 					}
 				} catch (error) {
 					throw error;
+				}
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.addColor', async (textEditor, edit) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				if (textEditor.selection.isEmpty) {
+					vscode.window.showWarningMessage(`请选中一段文字！`);
+				} else if (textEditor.selection.isReversed) {
+					edit.insert(textEditor.selection.active, '<span style="color:red">');
+					edit.insert(textEditor.selection.anchor, '</span>');
+				} else {
+					edit.insert(textEditor.selection.anchor, '<span style="color:red">');
+					edit.insert(textEditor.selection.active, '</span>');
 				}
 			}
 		})

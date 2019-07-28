@@ -17,6 +17,7 @@
 		"onCommand:extension.insertLink",
 		"onCommand:extension.insertOnlineImage",
 		"onCommand:extension.insertLocalImage",
+		"onCommand:extension.addColor",
 		"onCommand:extension.markdownToRawHtml",
 		"onCommand:extension.markdownToZip"
 	],
@@ -44,6 +45,11 @@
 				"category": "Markdown"
 			},
 			{
+				"command": "extension.addColor",
+				"title": "add color",
+				"category": "Markdown"
+			},
+			{
 				"command": "extension.markdownToRawHtml",
 				"title": "create raw HTML",
 				"category": "Markdown"
@@ -67,6 +73,9 @@
 				},
 				{
 					"command": "extension.insertLocalImage"
+				},
+				{
+					"command": "extension.addColor"
 				},
 				{
 					"command": "extension.markdownToRawHtml"
