@@ -66,17 +66,27 @@ export function activate(context: vscode.ExtensionContext) {
 						},
 					});
 					if (images) {
+						// .md文件目录
 						const folderPath = path.dirname(textEditor.document.uri.fsPath);
 						const imageRelativePaths = images.map((item) => {
 							return path.relative(folderPath, item.fsPath);
 						});
-						console.log(imageRelativePaths);
-						const hasIncorrectPath = imageRelativePaths.some((item) => {
-							return item.startsWith('..');
+						console.log(imageRelativePaths.join('\n'));
+						const hasIncorrectImage = imageRelativePaths.some((item) => {
+							const imageName = path.basename(item);
+							if (item.startsWith('..') || /^[a-zA-Z]:.*$/.test(item)) {
+								// 引用项目目录以外的图片文件
+								vscode.window.showWarningMessage(`${imageName}的存放路径不满足要求！`);
+								return true;
+							}
+							if (!(/^.*?\.(png|jpg|jpeg|gif|PNG|JPG|JPEG|GIF)$/.test(item))) {
+								// 引用非图片文件
+								vscode.window.showWarningMessage(`${imageName}文件的格式不满足要求！`);
+								return true;
+							}
+							return false;
 						});
-						if (hasIncorrectPath) {
-							vscode.window.showWarningMessage('有图片存放路径不满足要求！');
-						} else {
+						if (!hasIncorrectImage) {
 							imageRelativePaths.forEach((item) => {
 								edit.insert(textEditor.selection.active, `
 ![${item}](${item})

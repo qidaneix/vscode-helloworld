@@ -75,7 +75,10 @@
 					"command": "extension.markdownToZip"
 				}
 			]
-		}
+		},
+		"markdown.previewStyles": [
+			"./out/style.css"
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -86,7 +89,7 @@
 	},
 	"devDependencies": {
 		"@types/jszip": "^3.1.6",
-		"@types/marked": "^0.6.5",
+		"@types/markdown-it": "0.0.8",
 		"@types/mocha": "^2.2.42",
 		"@types/node": "^10.12.21",
 		"tslint": "^5.12.1",
@@ -95,6 +98,6 @@
 	},
 	"dependencies": {
 		"jszip": "^3.2.2",
-		"marked": "^0.7.0"
+		"markdown-it": "^9.0.1"
 	}
 }
