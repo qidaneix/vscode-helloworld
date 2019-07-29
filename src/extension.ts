@@ -54,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerTextEditorCommand('extension.insertLocalImage', async (textEditor, edit) => {
+		vscode.commands.registerTextEditorCommand('extension.insertLocalImage', async (textEditor) => {
 			// The code you place here will be executed every time your command is executed
 			if (isMarkdown(textEditor)) {
 				try {
@@ -86,11 +86,13 @@ export function activate(context: vscode.ExtensionContext) {
 							return false;
 						});
 						if (!hasIncorrectImage) {
-							imageRelativePaths.forEach((item) => {
-								edit.insert(textEditor.selection.active, `
+							for (const item of imageRelativePaths) {
+								await textEditor.edit((editBuilder) => {
+									editBuilder.insert(textEditor.selection.active, `
 ![${item}](${item})
 `);
-							});
+								});
+							}
 						}
 					}
 				} catch (error) {
