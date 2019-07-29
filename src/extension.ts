@@ -108,7 +108,11 @@ export function activate(context: vscode.ExtensionContext) {
 			if (isMarkdown(textEditor)) {
 				if (textEditor.selection.isEmpty) {
 					vscode.window.showWarningMessage(`请选中一段文字！`);
-				} else if (textEditor.selection.isReversed) {
+					return false;
+				}
+				const item = await vscode.window.showQuickPick(['red', 'green', 'yellow'], { canPickMany: false });
+				console.log(item);
+				if (textEditor.selection.isReversed) {
 					edit.insert(textEditor.selection.active, '<span style="color:red">');
 					edit.insert(textEditor.selection.anchor, '</span>');
 				} else {
