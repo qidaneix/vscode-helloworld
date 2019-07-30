@@ -17,7 +17,8 @@
 		"onCommand:extension.insertLink",
 		"onCommand:extension.insertOnlineImage",
 		"onCommand:extension.insertLocalImage",
-		"onCommand:extension.addColor",
+		"onCommand:extension.setColor",
+		"onCommand:extension.setImageAlign",
 		"onCommand:extension.markdownToRawHtml",
 		"onCommand:extension.markdownToZip"
 	],
@@ -45,8 +46,13 @@
 				"category": "Markdown"
 			},
 			{
-				"command": "extension.addColor",
-				"title": "add color",
+				"command": "extension.setColor",
+				"title": "set color",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.setImageAlign",
+				"title": "set image align",
 				"category": "Markdown"
 			},
 			{
@@ -75,7 +81,10 @@
 					"command": "extension.insertLocalImage"
 				},
 				{
-					"command": "extension.addColor"
+					"command": "extension.setColor"
+				},
+				{
+					"command": "extension.setImageAlign"
 				},
 				{
 					"command": "extension.markdownToRawHtml"

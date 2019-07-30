@@ -103,21 +103,48 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerTextEditorCommand('extension.addColor', async (textEditor, edit) => {
+		vscode.commands.registerTextEditorCommand('extension.setColor', async (textEditor) => {
 			// The code you place here will be executed every time your command is executed
 			if (isMarkdown(textEditor)) {
 				if (textEditor.selection.isEmpty) {
-					vscode.window.showWarningMessage(`请选中一段文字！`);
+					vscode.window.showWarningMessage('请选中一段文字！');
 					return false;
 				}
-				const item = await vscode.window.showQuickPick(['red', 'green', 'yellow'], { canPickMany: false });
-				console.log(item);
+				const color = await vscode.window.showQuickPick(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'], { canPickMany: false });
 				if (textEditor.selection.isReversed) {
-					edit.insert(textEditor.selection.active, '<span style="color:red">');
-					edit.insert(textEditor.selection.anchor, '</span>');
+					await textEditor.edit((editBuilder) => {
+						editBuilder.insert(textEditor.selection.active, `<span style="color:${color || ''}">`);
+						editBuilder.insert(textEditor.selection.anchor, '</span>');
+					});
 				} else {
-					edit.insert(textEditor.selection.anchor, '<span style="color:red">');
-					edit.insert(textEditor.selection.active, '</span>');
+					await textEditor.edit((editBuilder) => {
+						editBuilder.insert(textEditor.selection.anchor, `<span style="color:${color || ''}">`);
+						editBuilder.insert(textEditor.selection.active, '</span>');
+					});
+				}
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.setImageAlign', async (textEditor) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				if (textEditor.selection.isEmpty) {
+					vscode.window.showWarningMessage('请选中一张图片！');
+					return false;
+				}
+				const align = await vscode.window.showQuickPick(['right', 'center', 'left'], { canPickMany: false });
+				if (textEditor.selection.isReversed) {
+					await textEditor.edit((editBuilder) => {
+						editBuilder.insert(textEditor.selection.active, `<div style="text-align:${align || ''}">`);
+						editBuilder.insert(textEditor.selection.anchor, '</div>');
+					});
+				} else {
+					await textEditor.edit((editBuilder) => {
+						editBuilder.insert(textEditor.selection.anchor, `<div style="text-align:${align || ''}">`);
+						editBuilder.insert(textEditor.selection.active, '</div>');
+					});
 				}
 			}
 		})
