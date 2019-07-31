@@ -4,7 +4,8 @@ import * as vscode from 'vscode';
 import isMarkdown from './is-markdown';
 import createHTML from './create-html';
 import createZip from './create-zip';
-import insertImage from './insert-image';
+import insertImage from './insert-images';
+import insertFiles from './insert-files';
 import insertHtmlTag from './insert-html-tag';
 
 // this method is called when your extension is activated
@@ -39,6 +40,25 @@ export function activate(context: vscode.ExtensionContext) {
 				edit.insert(textEditor.selection.active, `
 [text](link)
 `);
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.insertFile', async (textEditor) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				try {
+					const files = await vscode.window.showOpenDialog({
+						defaultUri: textEditor.document.uri,
+						canSelectMany: true,
+					});
+					if (files) {
+						await insertFiles(textEditor, files);
+					}
+				} catch (error) {
+					throw error;
+				}
 			}
 		})
 	);

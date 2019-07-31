@@ -15,6 +15,7 @@
 		"workspaceContains:**/*.md",
 		"onCommand:extension.insertTable",
 		"onCommand:extension.insertLink",
+		"onCommand:extension.insertFile",
 		"onCommand:extension.insertOnlineImage",
 		"onCommand:extension.insertLocalImage",
 		"onCommand:extension.setColor",
@@ -33,6 +34,11 @@
 			{
 				"command": "extension.insertLink",
 				"title": "insert link",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.insertFile",
+				"title": "insert file",
 				"category": "Markdown"
 			},
 			{
@@ -73,6 +79,9 @@
 				},
 				{
 					"command": "extension.insertLink"
+				},
+				{
+					"command": "extension.insertFile"
 				},
 				{
 					"command": "extension.insertOnlineImage"
