@@ -1,10 +1,11 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import * as path from 'path';
 import isMarkdown from './is-markdown';
 import createHTML from './create-html';
 import createZip from './create-zip';
+import insertImage from './insert-image';
+import insertHtmlTag from './insert-html-tag';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -66,34 +67,7 @@ export function activate(context: vscode.ExtensionContext) {
 						},
 					});
 					if (images) {
-						// .md文件目录
-						const folderPath = path.dirname(textEditor.document.uri.fsPath);
-						const imageRelativePaths = images.map((item) => {
-							return path.relative(folderPath, item.fsPath);
-						});
-						const hasIncorrectImage = imageRelativePaths.some((item) => {
-							const imageName = path.basename(item);
-							if (item.startsWith('..') || /^[a-zA-Z]:.*$/.test(item)) {
-								// 引用项目目录以外的图片文件
-								vscode.window.showWarningMessage(`${imageName}的存放路径不满足要求！`);
-								return true;
-							}
-							if (!(/^.*?\.(png|jpg|jpeg|gif|PNG|JPG|JPEG|GIF)$/.test(item))) {
-								// 引用非图片文件
-								vscode.window.showWarningMessage(`${imageName}文件的格式不满足要求！`);
-								return true;
-							}
-							return false;
-						});
-						if (!hasIncorrectImage) {
-							for (const item of imageRelativePaths) {
-								await textEditor.edit((editBuilder) => {
-									editBuilder.insert(textEditor.selection.active, `
-![${item}](${item})
-`);
-								});
-							}
-						}
+						await insertImage(textEditor, images);
 					}
 				} catch (error) {
 					throw error;
@@ -107,21 +81,11 @@ export function activate(context: vscode.ExtensionContext) {
 			// The code you place here will be executed every time your command is executed
 			if (isMarkdown(textEditor)) {
 				if (textEditor.selection.isEmpty) {
-					vscode.window.showWarningMessage('请选中一段文字！');
+					vscode.window.showWarningMessage('Please select some text!');
 					return false;
 				}
 				const color = await vscode.window.showQuickPick(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'], { canPickMany: false });
-				if (textEditor.selection.isReversed) {
-					await textEditor.edit((editBuilder) => {
-						editBuilder.insert(textEditor.selection.active, `<span style="color:${color || ''}">`);
-						editBuilder.insert(textEditor.selection.anchor, '</span>');
-					});
-				} else {
-					await textEditor.edit((editBuilder) => {
-						editBuilder.insert(textEditor.selection.anchor, `<span style="color:${color || ''}">`);
-						editBuilder.insert(textEditor.selection.active, '</span>');
-					});
-				}
+				await insertHtmlTag(textEditor, `<span style="color:${color || ''}">`, '</span>');
 			}
 		})
 	);
@@ -131,21 +95,11 @@ export function activate(context: vscode.ExtensionContext) {
 			// The code you place here will be executed every time your command is executed
 			if (isMarkdown(textEditor)) {
 				if (textEditor.selection.isEmpty) {
-					vscode.window.showWarningMessage('请选中一张图片！');
+					vscode.window.showWarningMessage('Please select at least one image!');
 					return false;
 				}
 				const align = await vscode.window.showQuickPick(['right', 'center', 'left'], { canPickMany: false });
-				if (textEditor.selection.isReversed) {
-					await textEditor.edit((editBuilder) => {
-						editBuilder.insert(textEditor.selection.active, `<div style="text-align:${align || ''}">`);
-						editBuilder.insert(textEditor.selection.anchor, '</div>');
-					});
-				} else {
-					await textEditor.edit((editBuilder) => {
-						editBuilder.insert(textEditor.selection.anchor, `<div style="text-align:${align || ''}">`);
-						editBuilder.insert(textEditor.selection.active, '</div>');
-					});
-				}
+				await insertHtmlTag(textEditor, `<div style="text-align:${align || ''}">`, '</div>');
 			}
 		})
 	);

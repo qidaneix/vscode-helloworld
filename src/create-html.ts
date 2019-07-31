@@ -13,9 +13,9 @@ export default async (textEditor: vscode.TextEditor) => {
     const html = `<article class="vscode-body">\n${md.render(text)}</article>\n`;
     try {
         await writeFilePromise(`${textEditor.document.uri.fsPath}.html`, html);
-        vscode.window.showInformationMessage('HTML生成成功！');
+        vscode.window.showInformationMessage('Generate HTML successfully!');
     } catch (error) {
-        vscode.window.showErrorMessage('HTML生成出错了！');
+        vscode.window.showErrorMessage('Failed to generate HTML!');
         throw error;
     }
 };

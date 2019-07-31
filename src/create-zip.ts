@@ -28,11 +28,11 @@ export default async (textEditor: vscode.TextEditor, saveDir: vscode.Uri[]) => {
             .on('finish', async () => { 
                 // JSZip generates a readable stream with a "end" event,
                 // but is piped here in a writable stream which emits a "finish" event.
-                vscode.window.showInformationMessage('zip生成成功！');
+                vscode.window.showInformationMessage('Generate zip successfully!');
                 await openExplorer(savePath);
             });
     } catch (error) {
-        vscode.window.showErrorMessage('文件、文件夹读取出错了！');
+        vscode.window.showErrorMessage('File or folder reading failed!');
         throw error;
     }
 };
