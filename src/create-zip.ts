@@ -3,7 +3,7 @@ import * as JSZip from 'jszip';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as util from 'util';
-import recursiveReaddir from './recursive-readdir';
+import recursiveReadFile from './recursive-read-file';
 import openExplorer from './open-explorer';
 
 const readFilePromise = util.promisify(fs.readFile);
@@ -17,7 +17,7 @@ export default async (textEditor: vscode.TextEditor, saveDir: vscode.Uri[]) => {
     const savePath = path.join(saveDir[0].fsPath, `${folderName}.zip`);
     const mdZip = (new JSZip()).folder(folderName);
     try {
-        const files = await recursiveReaddir(folderPath);
+        const files = await recursiveReadFile(folderPath);
         for (const item of files) {
             const file = await readFilePromise(item);
             mdZip.file(path.relative(folderPath, item), file);
