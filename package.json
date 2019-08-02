@@ -23,7 +23,7 @@
 		"onCommand:extension.markdownToRawHtml",
 		"onCommand:extension.markdownToZip"
 	],
-	"main": "./dist/extension.js",
+	"main": "./dist/extension",
 	"contributes": {
 		"commands": [
 			{
@@ -102,7 +102,7 @@
 					"command": "extension.markdownToZip"
 				}
 			]
-		},
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "webpack --mode production",
