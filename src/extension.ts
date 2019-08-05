@@ -111,20 +111,6 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	context.subscriptions.push(
-		vscode.commands.registerTextEditorCommand('extension.setImageAlign', async (textEditor) => {
-			// The code you place here will be executed every time your command is executed
-			if (isMarkdown(textEditor)) {
-				if (textEditor.selection.isEmpty) {
-					vscode.window.showWarningMessage('Please select at least one image!');
-					return false;
-				}
-				const align = await vscode.window.showQuickPick(['right', 'center', 'left'], { canPickMany: false });
-				await insertHtmlTag(textEditor, `<div style="text-align:${align || ''}">`, '</div>');
-			}
-		})
-	);
-
-	context.subscriptions.push(
 		vscode.commands.registerTextEditorCommand('extension.markdownToRawHtml', async (textEditor) => {
 			// The code you place here will be executed every time your command is executed
 			if (isMarkdown(textEditor)) {

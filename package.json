@@ -19,7 +19,6 @@
 		"onCommand:extension.insertOnlineImage",
 		"onCommand:extension.insertLocalImage",
 		"onCommand:extension.setColor",
-		"onCommand:extension.setImageAlign",
 		"onCommand:extension.markdownToRawHtml",
 		"onCommand:extension.markdownToZip"
 	],
@@ -57,11 +56,6 @@
 				"category": "Markdown"
 			},
 			{
-				"command": "extension.setImageAlign",
-				"title": "set image align",
-				"category": "Markdown"
-			},
-			{
 				"command": "extension.markdownToRawHtml",
 				"title": "create raw HTML",
 				"category": "Markdown"
@@ -91,9 +85,6 @@
 				},
 				{
 					"command": "extension.setColor"
-				},
-				{
-					"command": "extension.setImageAlign"
 				},
 				{
 					"command": "extension.markdownToRawHtml"
