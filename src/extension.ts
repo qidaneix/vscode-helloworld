@@ -6,7 +6,7 @@ import createHTML from './create-html';
 import createZip from './create-zip';
 import insertImage from './insert-images';
 import insertFiles from './insert-files';
-import insertHtmlTag from './insert-html-tag';
+import insertWrap from './insert-wrap';
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -105,7 +105,7 @@ export function activate(context: vscode.ExtensionContext) {
 					return false;
 				}
 				const color = await vscode.window.showQuickPick(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'], { canPickMany: false });
-				await insertHtmlTag(textEditor, `<span style="color:${color || ''}">`, '</span>');
+				await insertWrap(textEditor, '[', `]{style=color:${color || ''}}`);
 			}
 		})
 	);
