@@ -117,6 +117,8 @@
 	},
 	"dependencies": {
 		"jszip": "^3.2.2",
-		"markdown-it": "^9.0.1"
+		"markdown-it": "^9.0.1",
+		"markdown-it-attrs": "^3.0.0",
+		"markdown-it-bracketed-spans": "^1.0.1"
 	}
 }

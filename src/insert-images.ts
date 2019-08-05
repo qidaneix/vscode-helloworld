@@ -14,7 +14,7 @@ export default async (textEditor: vscode.TextEditor, images: vscode.Uri[]) => {
             vscode.window.showWarningMessage(`The storage path of ${imageName} does not meet the requirements!`);
             return true;
         }
-        if (!(/^.*?\.(png|jpg|jpeg|gif|PNG|JPG|JPEG|GIF)$/.test(item))) {
+        if (!(/^.*?\.(png|jpg|jpeg|gif|webp|PNG|JPG|JPEG|GIF|WEBP)$/.test(item))) {
             // 引用非图片文件
             vscode.window.showWarningMessage(`The format of the ${imageName} file does not meet the requirements!`);
             return true;
