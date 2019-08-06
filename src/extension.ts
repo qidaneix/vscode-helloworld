@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import * as clipboardy from 'clipboardy';
 import isMarkdown from './is-markdown';
 import createHTML from './create-html';
 import createZip from './create-zip';
@@ -29,6 +30,24 @@ export function activate(context: vscode.ExtensionContext) {
 |    |    |    |    |
 |    |    |    |    |
 `);
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerTextEditorCommand('extension.insertExcelTable', async (textEditor) => {
+			// The code you place here will be executed every time your command is executed
+			if (isMarkdown(textEditor)) {
+				try {
+					const result = await clipboardy.read();
+					textEditor.edit((editBuilder) => {
+						editBuilder.insert(textEditor.selection.active, `
+${result}
+`);
+					});
+				} catch (error) {
+					throw error;
+				}
 			}
 		})
 	);

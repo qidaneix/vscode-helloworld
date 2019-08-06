@@ -14,6 +14,7 @@
 		"onLanguage:markdown",
 		"workspaceContains:**/*.md",
 		"onCommand:extension.insertTable",
+		"onCommand:extension.insertExcelTable",
 		"onCommand:extension.insertLink",
 		"onCommand:extension.insertFile",
 		"onCommand:extension.insertOnlineImage",
@@ -28,6 +29,11 @@
 			{
 				"command": "extension.insertTable",
 				"title": "insert table",
+				"category": "Markdown"
+			},
+			{
+				"command": "extension.insertExcelTable",
+				"title": "insert excel table",
 				"category": "Markdown"
 			},
 			{
@@ -70,6 +76,9 @@
 			"editor/context": [
 				{
 					"command": "extension.insertTable"
+				},
+				{
+					"command": "extension.insertExcelTable"
 				},
 				{
 					"command": "extension.insertLink"
@@ -116,6 +125,7 @@
 		"webpack-cli": "^3.3.6"
 	},
 	"dependencies": {
+		"clipboardy": "^2.1.0",
 		"jszip": "^3.2.2",
 		"markdown-it": "^9.0.1",
 		"markdown-it-attrs": "^3.0.0",
