@@ -135,7 +135,7 @@ export function activate(context: vscode.ExtensionContext) {
 					});
 					if (saveDir) {
 						await createHTML(textEditor);
-						await createZip(textEditor, saveDir);
+						await createZip(textEditor, saveDir[0]);
 					}
 				} catch (error) {
 					throw error;

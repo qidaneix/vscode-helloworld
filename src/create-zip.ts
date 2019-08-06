@@ -8,13 +8,13 @@ import openExplorer from './open-explorer';
 
 const readFilePromise = util.promisify(fs.readFile);
 
-export default async (textEditor: vscode.TextEditor, saveDir: vscode.Uri[]) => {
+export default async (textEditor: vscode.TextEditor, saveDir: vscode.Uri) => {
     // .md文件目录
     const folderPath = path.dirname(textEditor.document.uri.fsPath);
     // .md父文件夹名
     const folderName = path.basename(folderPath);
     // .zip文件存放位置
-    const savePath = path.join(saveDir[0].fsPath, `${folderName}.zip`);
+    const savePath = path.join(saveDir.fsPath, `${folderName}.zip`);
     const mdZip = (new JSZip()).folder(folderName);
     try {
         const files = await recursiveReadFile(folderPath);
