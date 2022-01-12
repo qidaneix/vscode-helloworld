@@ -127,7 +127,7 @@
 	"dependencies": {
 		"clipboardy": "^2.1.0",
 		"jszip": "^3.2.2",
-		"markdown-it": "^9.0.1",
+		"markdown-it": "^12.3.2",
 		"markdown-it-attrs": "^3.0.0",
 		"markdown-it-bracketed-spans": "^1.0.1"
 	}
